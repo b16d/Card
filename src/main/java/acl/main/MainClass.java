@@ -1,14 +1,11 @@
 package acl.main;
 
-import acl.controler.CardControleur;
+import acl.controler.CardControler;
 import io.javalin.Javalin;
 import io.javalin.openapi.plugin.OpenApiConfiguration;
 import io.javalin.openapi.plugin.OpenApiPlugin;
-import io.javalin.openapi.plugin.redoc.ReDocConfiguration;
-import io.javalin.openapi.plugin.redoc.ReDocPlugin;
 import io.javalin.openapi.plugin.swagger.SwaggerConfiguration;
 import io.javalin.openapi.plugin.swagger.SwaggerPlugin;
-import io.javalin.apibuilder.*;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -36,13 +33,13 @@ public class MainClass {
            //   config.plugins.register(new ReDocPlugin(new ReDocConfiguration()));
           }).routes(() -> {
         	  path("Card All", () -> {
-        		  get(CardControleur::getAllCards);
+        		  get(CardControler::getAllCards);
 
 
                   path("{cardId}", () -> {
-                      get(CardControleur::getCardById);
-                      put(CardControleur::updateCard);
-                      delete(CardControleur::removeCard);
+                      get(CardControler::getCardById);
+                      put(CardControler::updateCard);
+                      delete(CardControler::removeCard);
                   });
               });
           }).start(7002);

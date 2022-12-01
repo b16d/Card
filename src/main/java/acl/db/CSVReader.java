@@ -39,7 +39,7 @@ public non-sealed class CSVReader implements IDataReader {
 	}
 
 	@Override
-	public boolean saveCards() {
+	public synchronized boolean saveCards() {
 		try (FileWriter writer = new FileWriter(FILE)) {
 			for (Card card : listOfCards) {
 				writer.write(card.toCSV());
@@ -54,14 +54,16 @@ public non-sealed class CSVReader implements IDataReader {
 	}
 
 	@Override
-	public boolean updateCards(Card card) {
+	public synchronized boolean updateCards(Card card) { //TODO ACL TO BE REVIEW
 		int position = 0;
 		for (var cardTempo : listOfCards) {
+			position++;
 			if (cardTempo.id() == card.id()) {
-
+				break;
 			}
 		}
 		listOfCards.set(position, card);
+
 		return true;
 	}
 
@@ -103,7 +105,7 @@ public non-sealed class CSVReader implements IDataReader {
 	}
 
 	@Override
-	public void removeCard(Card card) {
+	public synchronized void removeCard(Card card) {
 		listOfCards.remove(card);
 	}
 }

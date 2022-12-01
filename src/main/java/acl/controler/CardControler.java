@@ -1,18 +1,15 @@
 package acl.controler;
 
-import java.util.List;
-
 import acl.domain.Card;
 import acl.service.CardService;
-import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.openapi.*;
 
-public class CardControleur {
+public class CardControler {
 
 	static CardService service;
 
-	public CardControleur() {
+	public CardControler() {
 		service = new CardService();
 	}
 
