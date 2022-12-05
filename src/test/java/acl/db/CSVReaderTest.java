@@ -11,17 +11,13 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import acl.domain.Card;
 
-//@TestInstance(Lifecycle.PER_CLASS)
 public class CSVReaderTest {
-/*
-	CSVReader reader;
-	
-	public CSVReaderTest() {
-		reader = new CSVReader();
-	}
-	
+
+	static  CSVReader reader;
+
 	@BeforeAll
-	public void init() {
+	public static void init() {
+		reader = new CSVReader();
 		reader.read();
 	}
 	@Test
@@ -50,5 +46,5 @@ public class CSVReaderTest {
 		
 		assertEquals(1, reader.getAll().size());
 		reader.read();
-	}*/
+	}
 }

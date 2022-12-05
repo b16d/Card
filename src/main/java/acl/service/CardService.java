@@ -1,42 +1,50 @@
 package acl.service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import acl.db.CSVReader;
+import acl.db.IDataReader;
 import acl.domain.Card;
 
 public class CardService {
 
-	CSVReader reader;
+	IDataReader reader;
 
+	private Map<Integer, Card> cardsCache;
 	public CardService() {
 		reader = new CSVReader();
+		cardsCache = reader.getAll().stream().collect(Collectors.toMap(card -> card.id(), Function.identity()));
+	}
+
+	protected CardService(IDataReader reader) {
+		this.reader = reader;
+		cardsCache = reader.getAll().stream().collect(Collectors.toMap(card -> card.id(), Function.identity()));
 	}
 	public Collection<Card> getAllCards() {
-		return reader.getAll();
+		return cardsCache.values();
 	}
 	
 	public Card getCardById(int id) {
-		return reader.getAll().stream().filter(c -> c.id() == id).findFirst().orElse(null);
+		return cardsCache.get(id);
 	}
 	
 	public boolean removeCard(Card cardToRemove) {
-		//Check card exist
-		var card = getCardById(cardToRemove.id());
 
-		return false;
+		cardsCache.remove(cardToRemove.id());
+
+		return true;
 	}
 	
 	public boolean updateCard(Card cardToUpdate) {
 		//Check card exist
-		var card = getCardById(cardToUpdate.id());
+		cardsCache.put(cardToUpdate.id(), cardToUpdate);
 
-		if (card == null) {
-			System.out.println("Card not Found");
-			return false;
-		}
-
-		return reader.updateCards(card);
+		return false;
 	}
 
 }

@@ -16,7 +16,7 @@ public non-sealed class CSVReader implements IDataReader {
 
 	private List<Card> listOfCards;
 
-	private static String FILE = "C:\\Users\\alban\\eclipse-workspace\\testjavalin\\src\\main\\resources\\cards.csv";
+	private static String FILE = "C:\\Users\\alban\\IdeaProjects\\Card\\src\\main\\resources\\cards.csv";
 
 	public CSVReader() {
 		listOfCards = new ArrayList<>();
@@ -57,10 +57,10 @@ public non-sealed class CSVReader implements IDataReader {
 	public synchronized boolean updateCards(Card card) { //TODO ACL TO BE REVIEW
 		int position = 0;
 		for (var cardTempo : listOfCards) {
-			position++;
 			if (cardTempo.id() == card.id()) {
 				break;
 			}
+			position++;
 		}
 		listOfCards.set(position, card);
 
