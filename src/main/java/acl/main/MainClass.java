@@ -36,11 +36,11 @@ public class MainClass {
         		  get(CardControler::getAllCards);
 
 
-                  /*path("{cardId}", () -> {
+                  path("{cardId}", () -> {
                       get(CardControler::getCardById);
                       put(CardControler::updateCard);
                       delete(CardControler::removeCard);
-                  });*/
+                  });
               });
           }).exception(Exception.class, (e, ctx) -> {
               ctx.status(401).json("Server Exception: " + e);
