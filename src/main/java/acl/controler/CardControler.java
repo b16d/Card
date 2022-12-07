@@ -3,6 +3,7 @@ package acl.controler;
 import acl.domain.Card;
 import acl.service.CardService;
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 import io.javalin.openapi.*;
 
 public class CardControler {
@@ -16,7 +17,7 @@ public class CardControler {
 	@OpenApi(
 		    summary = "Get all cards",
 		    operationId = "getAllCards",
-		    path = "/api/v1/path/Card",
+		    path = "/api/v1/Card",
 		    methods = HttpMethod.GET,
 		    tags = {"Card"},
 		    responses = {
@@ -39,8 +40,12 @@ public class CardControler {
 			}
 	)
 	public static void getCardById(Context ctx) {
-		var card = service.getCardById(ctx.getClass());
-		ctx.json();
+		Card card = service.getCardById(validPathParamCardId(ctx));
+		if (card == null) {
+			throw new NotFoundResponse("Card not found");
+		} else {
+			ctx.json(card);
+		}
 	}
 
 	private static int validPathParamCardId(Context ctx) {
@@ -58,7 +63,8 @@ public class CardControler {
 			}
 	)
 	public static void updateCard(Context ctx) {
-
+		Card card = ctx.pathParamAsClass("card", Card.class).get();
+		service.updateCard(card);
 	}
 
 	@OpenApi(
@@ -73,6 +79,7 @@ public class CardControler {
 			}
 	)
 	public static void removeCard(Context ctx) {
-
+		Card card = ctx.pathParamAsClass("card", Card.class).get();
+		service.removeCard(card);
 	}
 }

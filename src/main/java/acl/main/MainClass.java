@@ -16,18 +16,18 @@ public class MainClass {
 		String deprecatedDocsPath = "/swagger-docs";
 
 
-		
+
     	  Javalin.create(config -> {
               OpenApiConfiguration openApiConfiguration = new OpenApiConfiguration();
-              openApiConfiguration.getInfo().setTitle("Javalin Cards example");
+              openApiConfiguration.getInfo().setTitle("Card Service");
               openApiConfiguration.setDocumentationPath(deprecatedDocsPath);
-             
+
       		SwaggerConfiguration swaggerConfiguration = new SwaggerConfiguration();
-    		swaggerConfiguration.setUiPath("/swagger"); 
+    		swaggerConfiguration.setUiPath("/swagger");
     		swaggerConfiguration.setDocumentationPath(deprecatedDocsPath);
     		//config.plugins.register(new SwaggerPlugin(swaggerConfiguration));
-    		
-    		
+
+
               config.plugins.register(new OpenApiPlugin(openApiConfiguration));
               config.plugins.register(new SwaggerPlugin(swaggerConfiguration));
            //   config.plugins.register(new ReDocPlugin(new ReDocConfiguration()));
@@ -36,11 +36,11 @@ public class MainClass {
         		  get(CardControler::getAllCards);
 
 
-                  path("{cardId}", () -> {
+                  /*path("{cardId}", () -> {
                       get(CardControler::getCardById);
                       put(CardControler::updateCard);
                       delete(CardControler::removeCard);
-                  });
+                  });*/
               });
           }).exception(Exception.class, (e, ctx) -> {
               ctx.status(401).json("Server Exception: " + e);
