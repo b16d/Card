@@ -24,7 +24,7 @@ public class CardControler {
 		    }
 		)
 	public static void getAllCards(Context ctx) {
-		service.getAllCards();
+		ctx.json(service.getAllCards());
 	}
 
 	@OpenApi(
@@ -39,9 +39,13 @@ public class CardControler {
 			}
 	)
 	public static void getCardById(Context ctx) {
-		service.getCardById(0);
+		var card = service.getCardById(ctx.getClass());
+		ctx.json();
 	}
 
+	private static int validPathParamCardId(Context ctx) {
+		return ctx.pathParamAsClass("cardId", Integer.class).check(id -> id > 0, "ID must be greater than 0").get();
+	}
 	@OpenApi(
 			summary = "Update Card",
 			operationId = "updateCard",

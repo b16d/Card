@@ -1,6 +1,7 @@
 # Card
 
 TODO List
-//CVS Reader mal testé
-//CardService cas d'erreur à tester et gérer
-//Excpetion Handler à ajouter
+
+- //CVS Reader mal testé
+- //CardService cas d'erreur à tester et gérer
+- //Controler non bramché

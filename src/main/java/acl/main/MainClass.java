@@ -42,6 +42,9 @@ public class MainClass {
                       delete(CardControler::removeCard);
                   });
               });
+          }).exception(Exception.class, (e, ctx) -> {
+              ctx.status(401).json("Server Exception: " + e);
+
           }).start(7002);
 
           System.out.println("Check out ReDoc docs at http://localhost:7002/redoc");
