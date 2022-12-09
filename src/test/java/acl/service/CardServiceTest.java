@@ -39,7 +39,7 @@ public class CardServiceTest {
     @Test
     public void test_removeCard() {
         String name = "UpdateCard";
-        service.removeCard(new Card(0, name, name ));
+        service.removeCard(0);
 
         Assertions.assertEquals(1, service.getAllCards().size());
     }

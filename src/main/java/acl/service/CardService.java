@@ -18,6 +18,7 @@ public class CardService {
 	private Map<Integer, Card> cardsCache;
 	public CardService() {
 		reader = new CSVReader();
+		reader.read();
 		cardsCache = reader.getAll().stream().collect(Collectors.toMap(card -> card.id(), Function.identity()));
 	}
 
@@ -33,9 +34,9 @@ public class CardService {
 		return cardsCache.get(id);
 	}
 	
-	public boolean removeCard(Card cardToRemove) {
+	public boolean removeCard(int id) {
 
-		cardsCache.remove(cardToRemove.id());
+		cardsCache.remove(id);
 
 		return true;
 	}

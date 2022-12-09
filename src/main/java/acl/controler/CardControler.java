@@ -8,16 +8,16 @@ import io.javalin.openapi.*;
 
 public class CardControler {
 
-	static CardService service;
+	static CardService service = new CardService();
 
 	public CardControler() {
-		service = new CardService();
+		//service =  new CardService();
 	}
 
 	@OpenApi(
 		    summary = "Get all cards",
 		    operationId = "getAllCards",
-		    path = "/api/v1/Card",
+		    path = "/api/v1/card",
 		    methods = HttpMethod.GET,
 		    tags = {"Card"},
 		    responses = {
@@ -31,10 +31,10 @@ public class CardControler {
 	@OpenApi(
 			summary = "Get one card",
 			operationId = "getCardById",
-			path = "/api/v1/GetCardById",
+			path = "/api/v1/getCardById",
 			methods = HttpMethod.GET,
 			tags = {"Card"},
-			pathParams = {@OpenApiParam(name = "cardId", type = Integer.class, description = "The card ID")},
+			queryParams = {@OpenApiParam(name = "cardId", type = Integer.class, description = "The card ID")},
 			responses = {
 					@OpenApiResponse(status = "200", content = {@OpenApiContent(from = Card[].class)})
 			}
@@ -49,37 +49,37 @@ public class CardControler {
 	}
 
 	private static int validPathParamCardId(Context ctx) {
-		return ctx.pathParamAsClass("cardId", Integer.class).check(id -> id > 0, "ID must be greater than 0").get();
+		return Integer.parseInt(ctx.queryParam("cardId")); //Catch by exception mapping ;)
 	}
 	@OpenApi(
 			summary = "Update Card",
 			operationId = "updateCard",
-			path = "/api/v1/UpdateCard",
+			path = "/api/v1/updateCard",
 			methods = HttpMethod.PUT,
 			tags = {"Card"},
-			pathParams = {@OpenApiParam(name = "Card", type = Card.class, description = "Card to update")},
+			requestBody = @OpenApiRequestBody(content = {@OpenApiContent(from = Card.class)}),
 			responses = {
 					@OpenApiResponse(status = "200", content = {@OpenApiContent(from = Card[].class)})
 			}
 	)
 	public static void updateCard(Context ctx) {
-		Card card = ctx.pathParamAsClass("card", Card.class).get();
+		Card card = ctx.bodyAsClass(Card.class);
 		service.updateCard(card);
 	}
 
 	@OpenApi(
 			summary = "Remove Card",
 			operationId = "remove Card",
-			path = "/api/v1/RemoveCard",
+			path = "/api/v1/removeCard",
 			methods = HttpMethod.DELETE,
 			tags = {"Card"},
-			pathParams = {@OpenApiParam(name = "Card to delete", type = Card.class, description = "Card to remove")},
+			queryParams = {@OpenApiParam(name = "cardId", type = Integer.class, description = "The card ID")},
 			responses = {
 					@OpenApiResponse(status = "200", content = {@OpenApiContent(from = Card[].class)})
 			}
 	)
 	public static void removeCard(Context ctx) {
-		Card card = ctx.pathParamAsClass("card", Card.class).get();
-		service.removeCard(card);
+		int cardId = validPathParamCardId(ctx);
+		service.removeCard(cardId);
 	}
 }
